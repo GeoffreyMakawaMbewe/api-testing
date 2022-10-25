@@ -8,15 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class AnnouncementServiceImplementation implements AnnouncementService{
 
     private final AnnouncementRepository announcementRepository;
-    AnnouncementServiceImplementation(AnnouncementRepository announcementRepository){
+    private final AnnouncementDTO announcementDTO;
+    AnnouncementServiceImplementation(AnnouncementRepository announcementRepository, AnnouncementDTO announcementDTO){
         this.announcementRepository = announcementRepository;
+        this.announcementDTO = announcementDTO;
     }
 
     @Override
@@ -24,13 +25,12 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
         //Check For NoNull Object
        // if (!announcementDTO.getName().isBlank()&&announcementDTO.getMessage().isEmpty()&&announcementDTO.getPostedOn().after(announcementDTO.getExpireOn())) {
             //Mapping DTO to Entity
-            AnnouncementDTO newAnnouncementDTO = new AnnouncementDTO();
             Announcement announcement = new Announcement();
-            announcement.setId(newAnnouncementDTO.getId());
-            announcement.setName(newAnnouncementDTO.getName());
-            announcement.setMessage(newAnnouncementDTO.getMessage());
-            announcement.setPostedOn(newAnnouncementDTO.getPostedOn());
-            announcement.setExpireOn(newAnnouncementDTO.getExpireOn());
+            announcement.setId(announcementDTO.getId());
+            announcement.setName( announcementDTO.getName());
+            announcement.setMessage(announcementDTO.getMessage() );
+            announcement.setPostedOn( announcementDTO.getPostedOn());
+            announcement.setExpireOn(announcementDTO.getExpireOn() );
 
             //Now Save The Entity to DB
             announcementRepository.save(announcement);
@@ -57,7 +57,22 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
     @Override
     public List<AnnouncementDTO> fetchAllAnnouncements() {
 
-        return null;
+        List<Announcement> announcementList = announcementRepository.findAll();
+        List<AnnouncementDTO> announcementDTOList = new ArrayList<>();
+        for (Announcement announcement: announcementList) {
+            AnnouncementDTO myAnnouncementDTO = new AnnouncementDTO();
+            myAnnouncementDTO.setId(announcement.getId());
+            myAnnouncementDTO.setName(announcement.getName());
+            myAnnouncementDTO.setMessage(announcement.getMessage());
+            myAnnouncementDTO.setPostedOn(announcement.getPostedOn());
+            myAnnouncementDTO.setExpireOn(announcement.getExpireOn());
+
+            //Add Every DTO to DTO list
+            announcementDTOList.add(myAnnouncementDTO);
+
+        }
+
+        return announcementDTOList ;
     }
 
     @Override

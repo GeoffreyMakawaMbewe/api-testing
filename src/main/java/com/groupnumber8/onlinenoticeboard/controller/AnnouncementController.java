@@ -24,7 +24,7 @@ public class AnnouncementController {
     }
     @GetMapping(path = "/all")
     public ResponseEntity<List<AnnouncementDTO>> getAllAnnouncements(){
-        return ResponseEntity.status(HttpStatus.OK).body(announcementServiceImplementation.fetchAllAnnouncement());
+        return ResponseEntity.status(HttpStatus.OK).body(announcementServiceImplementation.fetchAllAnnouncements());
     }
 
 }
