@@ -33,8 +33,21 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
     }
     @Override
     public AnnouncementDTO fetchAnnouncementByName(String name) {
-
-        return null;
+        //MAKE IT CARE INSENSITIVE
+       Announcement announcement = announcementRepository.findAnnouncementByName(name).get();
+       if (announcement.getName().equals(name)){
+           //Converting to DTO
+           var announcementDTO = new AnnouncementDTO();
+           announcementDTO.setId(announcement.getId());
+           announcementDTO.setName(announcement.getName());
+           announcementDTO.setMessage(announcement.getMessage());
+           announcementDTO.setPostedOn(announcement.getPostedOn());
+           announcementDTO.setExpireOn(announcement.getExpireOn());
+           //Return this
+           return announcementDTO;
+       }else {
+           return null;
+       }
     }
     @Override
     public String enquireAnnouncementInfo() {
@@ -57,11 +70,31 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
         return announcementDTOList ;
     }
     @Override
-    public AnnouncementDTO updateAnnouncement(AnnouncementDTO announcementDTO  ) {
-        return null;
+    public String updateAnnouncement(String name,AnnouncementDTO announcementDTO  ) {
+        Announcement announcement = new Announcement();
+        announcement.setId(announcementDTO.getId());
+        announcement.setName(announcementDTO.getName());
+        announcement.setMessage(announcementDTO.getMessage());
+        announcement.setPostedOn(announcementDTO.getPostedOn());
+        announcement.setExpireOn(announcementDTO.getExpireOn());
+
+        //Re-use Method FindBYName
+       var targetAnnouncement =  announcementRepository.findAnnouncementByName(name).get();
+       if (name != null&&name.equals(targetAnnouncement.getName())){
+           targetAnnouncement.setName(announcement.getName());
+           targetAnnouncement.setMessage(announcement.getMessage());
+           targetAnnouncement.setPostedOn(announcement.getPostedOn());
+           targetAnnouncement.setExpireOn(announcement.getExpireOn());
+           announcementRepository.save(targetAnnouncement);
+       }else {
+           return "Make Sure you update the Announcement Name and an announcement must exist in the database";
+       }
+         return "Successful";
     }
     @Override
-    public Void deleteAnnouncement(Long id) {
-        return null;
+    public String deleteAnnouncement(String name) {
+       var anouncement=  announcementRepository.findAnnouncementByName(name).get();
+        announcementRepository.delete(anouncement);
+        return "Deleted Announcement " + name;
     }
 }

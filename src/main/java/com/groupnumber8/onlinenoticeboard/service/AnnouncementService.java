@@ -15,6 +15,6 @@ public interface AnnouncementService {
 
     List<AnnouncementDTO> fetchAllAnnouncements();
 
-    AnnouncementDTO updateAnnouncement(AnnouncementDTO announcementDTO);
-    Void deleteAnnouncement(Long id);
+    String updateAnnouncement(String name,AnnouncementDTO announcementDTO);
+    String deleteAnnouncement(String name);
 }

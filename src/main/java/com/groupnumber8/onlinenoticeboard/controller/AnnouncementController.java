@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/announcement")
+@RequestMapping(path = "/api")
 public class AnnouncementController {
     //Injecting Announcement Service Implementation Class
     private final AnnouncementServiceImplementation announcementServiceImplementation;
@@ -26,6 +26,18 @@ public class AnnouncementController {
     public ResponseEntity<List<AnnouncementDTO>> getAllAnnouncements(){
         return ResponseEntity.status(HttpStatus.OK).body(announcementServiceImplementation.fetchAllAnnouncements());
     }
-
+@GetMapping(path = "/announcement/{name}")
+    public ResponseEntity<AnnouncementDTO> getByName(@PathVariable("name") String name){
+        var fetchedAnnouncementDTO = announcementServiceImplementation.fetchAnnouncementByName(name);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(fetchedAnnouncementDTO);
+}
+@PutMapping(path = "/update/{name}")
+public String updateAnnouncement(@PathVariable("name") String name, @RequestBody AnnouncementDTO announcementDTO){
+        return announcementServiceImplementation.updateAnnouncement(name,announcementDTO);
+}
+@DeleteMapping(path = "/delete/{name}")
+    public String delete(@PathVariable("name") String name){
+        return announcementServiceImplementation.deleteAnnouncement(name);
+}
 
 }
