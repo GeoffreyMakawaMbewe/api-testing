@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
     @Override
     public ResponseEntity<AnnouncementDTO> postAnnouncement(AnnouncementDTO announcementDTO) {
         //Check For NoNull Object
-        if (!announcementDTO.getName().isBlank()&&announcementDTO.getMessage().isEmpty()&&announcementDTO.getPostedOn().after(announcementDTO.getExpireOn())) {
+       // if (!announcementDTO.getName().isBlank()&&announcementDTO.getMessage().isEmpty()&&announcementDTO.getPostedOn().after(announcementDTO.getExpireOn())) {
             //Mapping DTO to Entity
             AnnouncementDTO newAnnouncementDTO = new AnnouncementDTO();
             Announcement announcement = new Announcement();
@@ -35,18 +36,16 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
             announcementRepository.save(announcement);
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(announcementDTO);
-        }
+
     }
 
     @Override
-    public Announcement fetchAnnouncementById(Long id) {
+    public AnnouncementDTO fetchAnnouncementById(Long id) {
         return null;
     }
 
     @Override
-    public Announcement fetchAnnouncementByName(String name) {
+    public AnnouncementDTO fetchAnnouncementByName(String name) {
         return null;
     }
 
@@ -56,12 +55,13 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
     }
 
     @Override
-    public List<Announcement> fetchAllAnnouncement() {
+    public List<AnnouncementDTO> fetchAllAnnouncements() {
+
         return null;
     }
 
     @Override
-    public Announcement updateAnnouncement(Announcement announcement) {
+    public AnnouncementDTO updateAnnouncement(AnnouncementDTO announcementDTO  ) {
         return null;
     }
 

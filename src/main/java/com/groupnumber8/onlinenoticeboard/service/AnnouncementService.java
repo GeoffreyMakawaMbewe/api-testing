@@ -9,10 +9,15 @@ import java.util.List;
 public interface AnnouncementService {
 
     ResponseEntity<AnnouncementDTO> postAnnouncement(AnnouncementDTO announcementDTO);
-    Announcement fetchAnnouncementById(Long id);
-    Announcement fetchAnnouncementByName(String name);
+
+    AnnouncementDTO fetchAnnouncementById(Long id);
+
+    AnnouncementDTO fetchAnnouncementByName(String name);
+
     String enquireAnnouncementInfo();
-    List<Announcement> fetchAllAnnouncement();
-    Announcement updateAnnouncement(Announcement announcement);
+
+    List<AnnouncementDTO> fetchAllAnnouncements();
+
+    AnnouncementDTO updateAnnouncement(AnnouncementDTO announcementDTO);
     Void deleteAnnouncement(Long id);
 }

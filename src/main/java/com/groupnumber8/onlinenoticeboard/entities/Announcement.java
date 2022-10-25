@@ -17,17 +17,17 @@ import java.util.Date;
 public class Announcement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+
     private Long id;
-    @Column(nullable = false)
+
     private String name;
 
-    @Column(nullable = false)
+
     private String message;
 
-    @Column(nullable = false)
-    private Date postedOn;
 
-    @Column(nullable = false)
-    private Date expireOn;
+    private String postedOn;
+
+
+    private String expireOn;
 }

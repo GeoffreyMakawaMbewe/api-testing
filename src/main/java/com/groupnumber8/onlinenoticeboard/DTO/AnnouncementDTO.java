@@ -17,6 +17,6 @@ public class AnnouncementDTO {
     private Long id;
     private String name;
     private String message;
-    private Date postedOn;
-    private Date expireOn;
+    private String postedOn;
+    private String expireOn;
 }
