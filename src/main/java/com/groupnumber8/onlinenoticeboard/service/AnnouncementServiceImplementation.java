@@ -8,18 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class AnnouncementServiceImplementation implements AnnouncementService{
-
     private final AnnouncementRepository announcementRepository;
-    private final AnnouncementDTO announcementDTO;
-    AnnouncementServiceImplementation(AnnouncementRepository announcementRepository, AnnouncementDTO announcementDTO){
+    AnnouncementServiceImplementation(AnnouncementRepository announcementRepository){
         this.announcementRepository = announcementRepository;
-        this.announcementDTO = announcementDTO;
     }
-
     @Override
     public ResponseEntity<AnnouncementDTO> postAnnouncement(AnnouncementDTO announcementDTO) {
         //Check For NoNull Object
@@ -31,16 +29,21 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
             announcement.setMessage(announcementDTO.getMessage() );
             announcement.setPostedOn( announcementDTO.getPostedOn());
             announcement.setExpireOn(announcementDTO.getExpireOn() );
-
             //Now Save The Entity to DB
             announcementRepository.save(announcement);
 
-            return ResponseEntity.status(HttpStatus.CREATED).build();
 
+
+            return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 
     @Override
     public AnnouncementDTO fetchAnnouncementById(Long id) {
+        var announcement = announcementRepository
+                .findAnnouncementById(id)
+                .orElseThrow();
+
         return null;
     }
 
@@ -66,20 +69,15 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
             myAnnouncementDTO.setMessage(announcement.getMessage());
             myAnnouncementDTO.setPostedOn(announcement.getPostedOn());
             myAnnouncementDTO.setExpireOn(announcement.getExpireOn());
-
             //Add Every DTO to DTO list
             announcementDTOList.add(myAnnouncementDTO);
-
         }
-
         return announcementDTOList ;
     }
-
     @Override
     public AnnouncementDTO updateAnnouncement(AnnouncementDTO announcementDTO  ) {
         return null;
     }
-
     @Override
     public Void deleteAnnouncement(Long id) {
         return null;

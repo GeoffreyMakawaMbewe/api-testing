@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
     Optional<Announcement> findAnnouncementByName(String name);
+    Optional<Announcement> findAnnouncementById(Long id);
     List<Announcement> findAll();
 }
