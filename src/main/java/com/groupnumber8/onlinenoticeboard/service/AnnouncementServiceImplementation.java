@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,18 +20,24 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
 
     @Override
     public ResponseEntity<AnnouncementDTO> postAnnouncement(AnnouncementDTO announcementDTO) {
-        //Mapping DTO to Entity
-        AnnouncementDTO newAnnouncementDTO = new AnnouncementDTO();
-        Announcement announcement = new Announcement();
-        announcement.setId(newAnnouncementDTO.getId());
-        announcement.setName(newAnnouncementDTO.getName());
-        announcement.setMessage(newAnnouncementDTO.getMessage());
-        announcement.setPostedOn(newAnnouncementDTO.getPostedOn());
-        announcement.setExpireOn(newAnnouncementDTO.getExpireOn());
+        //Check For NoNull Object
+        if (!announcementDTO.getName().isBlank()&&announcementDTO.getMessage().isEmpty()&&announcementDTO.getPostedOn().after(announcementDTO.getExpireOn())) {
+            //Mapping DTO to Entity
+            AnnouncementDTO newAnnouncementDTO = new AnnouncementDTO();
+            Announcement announcement = new Announcement();
+            announcement.setId(newAnnouncementDTO.getId());
+            announcement.setName(newAnnouncementDTO.getName());
+            announcement.setMessage(newAnnouncementDTO.getMessage());
+            announcement.setPostedOn(newAnnouncementDTO.getPostedOn());
+            announcement.setExpireOn(newAnnouncementDTO.getExpireOn());
 
-        //Now Save The Entity to DB
+            //Now Save The Entity to DB
+            announcementRepository.save(announcement);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(announcementDTO);
+        }
     }
 
     @Override
