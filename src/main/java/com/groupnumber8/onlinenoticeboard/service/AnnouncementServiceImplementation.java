@@ -8,14 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class AnnouncementServiceImplementation implements AnnouncementService{
     private final AnnouncementRepository announcementRepository;
-    AnnouncementServiceImplementation(AnnouncementRepository announcementRepository){
+    AnnouncementServiceImplementation(AnnouncementRepository announcementRepository ){
         this.announcementRepository = announcementRepository;
     }
     @Override
@@ -31,35 +29,19 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
             announcement.setExpireOn(announcementDTO.getExpireOn() );
             //Now Save The Entity to DB
             announcementRepository.save(announcement);
-
-
-
             return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-
-    @Override
-    public AnnouncementDTO fetchAnnouncementById(Long id) {
-        var announcement = announcementRepository
-                .findAnnouncementById(id)
-                .orElseThrow();
-
-        return null;
-    }
-
     @Override
     public AnnouncementDTO fetchAnnouncementByName(String name) {
+
         return null;
     }
-
     @Override
     public String enquireAnnouncementInfo() {
         return null;
     }
-
     @Override
     public List<AnnouncementDTO> fetchAllAnnouncements() {
-
         List<Announcement> announcementList = announcementRepository.findAll();
         List<AnnouncementDTO> announcementDTOList = new ArrayList<>();
         for (Announcement announcement: announcementList) {

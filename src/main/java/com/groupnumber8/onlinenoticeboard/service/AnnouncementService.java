@@ -10,8 +10,6 @@ public interface AnnouncementService {
 
     ResponseEntity<AnnouncementDTO> postAnnouncement(AnnouncementDTO announcementDTO);
 
-    AnnouncementDTO fetchAnnouncementById(Long id);
-
     AnnouncementDTO fetchAnnouncementByName(String name);
 
     String enquireAnnouncementInfo();

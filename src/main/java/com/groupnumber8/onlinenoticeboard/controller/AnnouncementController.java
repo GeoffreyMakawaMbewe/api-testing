@@ -27,4 +27,5 @@ public class AnnouncementController {
         return ResponseEntity.status(HttpStatus.OK).body(announcementServiceImplementation.fetchAllAnnouncements());
     }
 
+
 }
