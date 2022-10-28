@@ -2,6 +2,7 @@ package com.groupnumber8.onlinenoticeboard.service;
 
 import com.groupnumber8.onlinenoticeboard.entities.Student;
 import com.groupnumber8.onlinenoticeboard.repository.StudentRepository;
+import com.groupnumber8.onlinenoticeboard.security.SecurityStudent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +27,7 @@ public class StudentService implements UserDetailsService {
         Optional<Student> student = studentRepository.findStudentByUsername(username);
 
         Student foundStudent = student.orElseThrow( () -> new  UsernameNotFoundException("No Student With Username " + username + " Was Found"));
-        return null;
+        System.out.println(student.toString());
+        return new SecurityStudent(foundStudent);
     }
 }

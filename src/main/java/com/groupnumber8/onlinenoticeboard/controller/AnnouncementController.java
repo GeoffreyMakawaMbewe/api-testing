@@ -17,7 +17,7 @@ public class AnnouncementController {
     AnnouncementController(AnnouncementServiceImplementation announcementServiceImplementation){
         this.announcementServiceImplementation = announcementServiceImplementation;
     }
-    @PostMapping(path = "/postNewAnnouncement")
+    @PostMapping(path = "/post")
     public ResponseEntity<AnnouncementDTO> newAnnouncement(@RequestBody AnnouncementDTO announcementDTO ){
         announcementServiceImplementation.postAnnouncement(announcementDTO);
         return  ResponseEntity.status(HttpStatus.CREATED).build();

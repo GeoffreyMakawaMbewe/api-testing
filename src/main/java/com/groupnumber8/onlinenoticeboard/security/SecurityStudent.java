@@ -2,6 +2,7 @@ package com.groupnumber8.onlinenoticeboard.security;
 
 import com.groupnumber8.onlinenoticeboard.entities.Student;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -13,6 +14,9 @@ public class SecurityStudent implements UserDetails {
     public SecurityStudent(Student student) {
         this.student = student;
     }
+
+    //SET OF AUTHORITIES FOR STUDENT
+    SimpleGrantedAuthority authorities = new SimpleGrantedAuthority();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
