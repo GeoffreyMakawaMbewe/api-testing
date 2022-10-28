@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthoritiesContainer {
+public class RolesContainer {
 
-    private String authorityLevelOne = "USER";
-    private String authorityLevelTwo = "ADMIN";
+    private String roleLevelOne = "STUDENT";
+    private String roleLevelTwo = "STAFF";
 
 }
