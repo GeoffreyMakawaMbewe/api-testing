@@ -93,8 +93,8 @@ public class AnnouncementServiceImplementation implements AnnouncementService{
     }
     @Override
     public String deleteAnnouncement(String name) {
-       var anouncement=  announcementRepository.findAnnouncementByName(name).get();
-        announcementRepository.delete(anouncement);
+       var announcement=  announcementRepository.findAnnouncementByName(name).get();
+        announcementRepository.delete(announcement);
         return "Deleted Announcement " + name;
     }
 }

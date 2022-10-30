@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api")
 public class AnnouncementController {
     //Injecting Announcement Service Implementation Class
     private final AnnouncementServiceImplementation announcementServiceImplementation;
