@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -17,18 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProjectConfig(UserService userService) {
+    public ProjectConfig(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(this.userService);
         return authenticationProvider;
     }
@@ -40,11 +38,11 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
          http.authorizeRequests()
+                 .antMatchers(HttpMethod.POST,"/new").authenticated()
                  .antMatchers("/hello").authenticated()
                  .antMatchers("/users").authenticated()
                  .antMatchers("/logged").authenticated()
                  .antMatchers(HttpMethod.GET,"/all").authenticated()
-                 .antMatchers("/post").authenticated()
                  .and()
                  .httpBasic();
     }

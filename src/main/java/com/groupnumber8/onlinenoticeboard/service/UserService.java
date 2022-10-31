@@ -6,14 +6,18 @@ import com.groupnumber8.onlinenoticeboard.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
 
+
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -23,5 +27,9 @@ public class UserService implements UserDetailsService {
 
         SecurityUser securityUser = new SecurityUser(user);
         return securityUser;
+    }
+    public void AddNewUser(User user) {
+        passwordEncoder.encode(user.getPassword());
+        userRepository.save(user);
     }
 }

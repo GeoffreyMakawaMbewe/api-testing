@@ -10,4 +10,5 @@ class OnlineNoticeBoardApplicationTests {
     void contextLoads() {
     }
 
+
 }

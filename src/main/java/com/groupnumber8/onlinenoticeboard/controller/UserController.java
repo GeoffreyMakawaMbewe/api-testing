@@ -2,9 +2,12 @@ package com.groupnumber8.onlinenoticeboard.controller;
 
 import com.groupnumber8.onlinenoticeboard.entities.User;
 import com.groupnumber8.onlinenoticeboard.repository.UserRepository;
+import com.groupnumber8.onlinenoticeboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,6 +16,14 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/new")
+    public String addNewUser(@RequestBody User user){
+        userService.AddNewUser(user);
+        return "User has been added";
+    }
 
     @GetMapping("/hello")
     public String hello(){
