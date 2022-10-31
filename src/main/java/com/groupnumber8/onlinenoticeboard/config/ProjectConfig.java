@@ -37,11 +37,17 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-         http.authorizeRequests()
-                 .antMatchers("/hello").authenticated()
-                 .antMatchers("/users").authenticated()
-                 .antMatchers("/logged").authenticated()
-                 .antMatchers("/register").permitAll()
+         http
+                 .cors()
+                 .and()
+                 .csrf()
+                 .disable()
+                 .authorizeRequests()
+                 .antMatchers("/hello").hasAnyAuthority("STUDENT","ADMIN")
+                 .antMatchers("/users").hasAnyAuthority("ADMIN")
+                 .antMatchers("/logged").hasAnyAuthority(" ADMIN")
+                 .antMatchers("/register").hasAnyAuthority("STUDENT","ADMIN")
+                 .mvcMatchers(HttpMethod.POST,"/post").permitAll()
                  .antMatchers(HttpMethod.GET,"/all").authenticated()
                  .and()
                  .httpBasic();

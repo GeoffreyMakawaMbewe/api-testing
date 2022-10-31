@@ -26,9 +26,12 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findUserByUsername(username);
         SecurityUser securityUser = new SecurityUser(user);
-        return securityUser;
-    }
+        if (user == null){
+            throw new UsernameNotFoundException("User not found");
+        }
+            return securityUser;
 
+    }
 
     public User registerNewUser(User user) {
         String EncodedPassword = passwordEncoder.encode(user.getPassword());
