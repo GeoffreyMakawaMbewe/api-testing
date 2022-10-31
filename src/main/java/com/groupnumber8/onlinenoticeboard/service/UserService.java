@@ -16,20 +16,23 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository ) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findUserByUsername(username);
-
         SecurityUser securityUser = new SecurityUser(user);
         return securityUser;
     }
-    public void AddNewUser(User user) {
-        passwordEncoder.encode(user.getPassword());
-        userRepository.save(user);
+
+
+    public User registerNewUser(User user) {
+        String EncodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(EncodedPassword);
+        return userRepository.save(user);
     }
 }

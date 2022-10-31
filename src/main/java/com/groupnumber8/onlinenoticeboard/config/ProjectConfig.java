@@ -38,10 +38,10 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
          http.authorizeRequests()
-                 .antMatchers(HttpMethod.POST,"/new").authenticated()
                  .antMatchers("/hello").authenticated()
                  .antMatchers("/users").authenticated()
                  .antMatchers("/logged").authenticated()
+                 .antMatchers("/register").permitAll()
                  .antMatchers(HttpMethod.GET,"/all").authenticated()
                  .and()
                  .httpBasic();

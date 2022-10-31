@@ -19,15 +19,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/new")
-    public String addNewUser(@RequestBody User user){
-        userService.AddNewUser(user);
-        return "User has been added";
-    }
-
     @GetMapping("/hello")
     public String hello(){
          return "Hello";
+     }
+
+     @PostMapping("/register")
+     public User registerUser(@RequestBody User user){
+        return  userService.registerNewUser(user);
      }
      @GetMapping("/logged")
     public String loggenInUser( ){
