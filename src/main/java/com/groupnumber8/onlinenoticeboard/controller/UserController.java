@@ -1,23 +1,20 @@
 package com.groupnumber8.onlinenoticeboard.controller;
 
+import com.groupnumber8.onlinenoticeboard.DTO.UserDTO;
 import com.groupnumber8.onlinenoticeboard.entities.User;
-import com.groupnumber8.onlinenoticeboard.repository.UserRepository;
-import com.groupnumber8.onlinenoticeboard.service.UserService;
+import com.groupnumber8.onlinenoticeboard.service.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserService userService;
+     @Autowired
+    private UserServiceImplementation userServiceImplementation;
 
     @GetMapping("/hello")
     public String hello(){
@@ -25,8 +22,9 @@ public class UserController {
      }
 
      @PostMapping("/register")
-     public User registerUser(@RequestBody User user){
-        return  userService.registerNewUser(user);
+     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO){
+          userServiceImplementation.registerNewUser(userDTO);
+          return ResponseEntity.status(HttpStatus.CREATED).build();
      }
      @GetMapping("/logged")
     public String loggenInUser( ){
@@ -38,9 +36,18 @@ public class UserController {
          System.out.println(details);
         return "loggedUser is " + username + " \nand password is \n" ;
      }
+     @GetMapping("/user/{username}")
+     public UserDTO getUser(@PathVariable("username" ) String username){
+        return userServiceImplementation.findUserByUserName(username);
+     }
      @GetMapping("/users")
     public List<User> getAll(){
-        return userRepository.findAll();
+        return  userServiceImplementation.allSystemUsers();
+     }
+     @DeleteMapping("/terminate/{username}")
+    public String deleteUserFromDB(@PathVariable("username") String username){
+        userServiceImplementation.deleteUserByUserName(username);
+        return "Record of " + username + " has been eradicated from database";
      }
 
 

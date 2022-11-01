@@ -14,8 +14,10 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @JsonIgnore
     private int id;
     private String username;
+   // @JsonIgnore
     private String password;
     private String role;
 }

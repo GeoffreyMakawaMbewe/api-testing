@@ -20,4 +20,5 @@ public class OnlineNoticeBoardApplication {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-}
+
+ }

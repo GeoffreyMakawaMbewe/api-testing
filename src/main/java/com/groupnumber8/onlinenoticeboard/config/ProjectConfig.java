@@ -1,6 +1,6 @@
 package com.groupnumber8.onlinenoticeboard.config;
 
-import com.groupnumber8.onlinenoticeboard.service.UserService;
+import com.groupnumber8.onlinenoticeboard.service.UserServiceImplementation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,19 +15,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final UserServiceImplementation userServiceImplementation;
 
-    public ProjectConfig(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
+    public ProjectConfig(PasswordEncoder passwordEncoder, UserServiceImplementation userServiceImplementation ) {
         this.passwordEncoder = passwordEncoder;
+        this.userServiceImplementation = userServiceImplementation;
+
     }
 
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder);
-        authenticationProvider.setUserDetailsService(this.userService);
+        authenticationProvider.setUserDetailsService(this.userServiceImplementation);
         return authenticationProvider;
     }
     @Override
@@ -44,10 +45,12 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                  .disable()
                  .authorizeRequests()
                  .antMatchers("/hello").hasAnyAuthority("STUDENT","ADMIN")
-                 .antMatchers("/users").hasAnyAuthority("ADMIN")
-                 .antMatchers("/logged").hasAnyAuthority(" ADMIN")
-                 .antMatchers("/register").hasAnyAuthority("STUDENT","ADMIN")
-                 .mvcMatchers(HttpMethod.POST,"/post").permitAll()
+                 .mvcMatchers("/users").hasAnyAuthority("ADMIN")
+                 .mvcMatchers("/logged").hasAnyAuthority(" ADMIN")
+                 .mvcMatchers("/register").hasAnyAuthority("STUDENT","ADMIN")
+                 .mvcMatchers("/user/{username}").hasAuthority("ADMIN")
+                // .mvcMatchers(HttpMethod.DELETE,"/terminate/{username}").hasAuthority("ADMIN")
+                 .antMatchers(HttpMethod.POST,"/post").permitAll()
                  .antMatchers(HttpMethod.GET,"/all").authenticated()
                  .and()
                  .httpBasic();
