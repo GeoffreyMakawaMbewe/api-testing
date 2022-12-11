@@ -1,5 +1,6 @@
 package com.groupnumber8.onlinenoticeboard.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,10 +15,10 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   // @JsonIgnore
+   @JsonIgnore
     private int id;
     private String username;
-   // @JsonIgnore
+   @JsonIgnore
     private String password;
     private String role;
 }

@@ -18,6 +18,8 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final UserServiceImplementation userServiceImplementation;
 
+
+
     public ProjectConfig(PasswordEncoder passwordEncoder, UserServiceImplementation userServiceImplementation ) {
         this.passwordEncoder = passwordEncoder;
         this.userServiceImplementation = userServiceImplementation;
